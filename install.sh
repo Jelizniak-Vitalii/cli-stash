@@ -9,23 +9,23 @@ WRAPPER_PATH="/usr/local/bin/cli-stash"
 
 echo "Installing $APP_NAME..."
 
-# Проверка Docker
+# Check Docker
 if ! command -v docker &> /dev/null; then
     echo "Docker is not installed."
     exit 1
 fi
 
-# Сборка Docker образа (с Maven внутри)
+# Build Docker image (with Maven inside)
 echo "Building Docker image..."
 docker build -t $IMAGE_NAME .
 
-# Создание volume
+# Create volume
 if ! docker volume inspect $VOLUME_NAME >/dev/null 2>&1; then
     echo "Creating Docker volume..."
     docker volume create $VOLUME_NAME
 fi
 
-# Создание wrapper
+# Create wrapper
 echo "Creating wrapper..."
 
 sudo bash -c "cat > $WRAPPER_PATH" <<EOF

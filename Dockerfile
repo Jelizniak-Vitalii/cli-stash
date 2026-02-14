@@ -13,7 +13,7 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre
 
 WORKDIR /app
-COPY --from=build /app/li-stash.jar app.jar
+COPY --from=build /app/target/cli-stash.jar app.jar
 
 VOLUME /data
 
