@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 
-import static com.clistash.app.ParseData.normalizeQuotes;
-
 public class App {
   private static final CommandStore store = new CommandStore();
   private static final ParseData parseData = new ParseData();
@@ -146,7 +144,7 @@ public class App {
       return;
     }
 
-    CommandRunner.run(command);
+    System.out.println(command);
   }
 
   private static void printHelp() {

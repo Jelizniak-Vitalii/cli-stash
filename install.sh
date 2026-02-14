@@ -3,42 +3,51 @@
 set -e
 
 APP_NAME="cli-stash"
-IMAGE_NAME="cli-stash"
-VOLUME_NAME="cli_stash_data"
+IMAGE_NAME="clistash/cli-stash:latest"
+VOLUME_NAME="clistash_data"
 WRAPPER_PATH="/usr/local/bin/cli-stash"
 
 echo "Installing $APP_NAME..."
 
-# Check Docker
 if ! command -v docker &> /dev/null; then
     echo "Docker is not installed."
     exit 1
 fi
 
-# Build Docker image (with Maven inside)
 echo "Building Docker image..."
 docker build -t $IMAGE_NAME .
 
-# Create volume
-if ! docker volume inspect $VOLUME_NAME >/dev/null 2>&1; then
-    echo "Creating Docker volume..."
-    docker volume create $VOLUME_NAME
-fi
-
-# Create wrapper
 echo "Creating wrapper..."
 
-sudo bash -c "cat > $WRAPPER_PATH" <<EOF
+sudo bash -c "cat > $WRAPPER_PATH" <<'EOF'
 #!/bin/bash
-docker run -it --rm \\
-  -v $VOLUME_NAME:/data \\
-  $IMAGE_NAME "\$@"
+
+IMAGE_NAME="clistash/cli-stash:latest"
+VOLUME_NAME="clistash_data"
+
+if [ $# -eq 0 ]; then
+  docker run -it --rm \
+    -v $VOLUME_NAME:/data \
+    $IMAGE_NAME
+  exit 0
+fi
+
+OUTPUT=$(docker run -i --rm \
+  -v $VOLUME_NAME:/data \
+  $IMAGE_NAME "$@")
+
+if [[ "$1" == "-run" ]]; then
+  if [ -n "$OUTPUT" ]; then
+    eval "$OUTPUT"
+  fi
+else
+  echo "$OUTPUT"
+fi
 EOF
 
 sudo chmod +x $WRAPPER_PATH
 
 echo ""
 echo "Installation complete!"
-echo "Now you can use:"
-echo "  cli-stash"
+echo "Image name: $IMAGE_NAME"
 echo ""
