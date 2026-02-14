@@ -40,7 +40,7 @@ public class App {
   }
 
   private static void processArgs(String[] args) {
-    String[] parsedArgs = ParseData.normalizeQuotes(args);
+    String[] parsedArgs = parseData.normalizeQuotes(args);
 
     switch (args[0]) {
       case "-list" -> handleList();
