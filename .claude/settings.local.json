@@ -1,11 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "mcp__jetbrains__list_directory_tree",
-      "Bash(java -jar target/cli-stash-1.0-SNAPSHOT.jar add deploy:*)",
-      "Bash(java -jar target/cli-stash-1.0-SNAPSHOT.jar add:*)",
-      "Bash(java -jar target/cli-stash-1.0-SNAPSHOT.jar list:*)",
-      "Bash(java -jar target/cli-stash-1.0-SNAPSHOT.jar update deploy:*)"
+      "mcp__jetbrains__list_directory_tree"
     ]
   }
 }
