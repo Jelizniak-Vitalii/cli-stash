@@ -30,6 +30,16 @@ public class CommandStore {
     return Path.of("commands.json").toAbsolutePath();
   }
 
+  private void save() {
+    try {
+      mapper.writerWithDefaultPrettyPrinter()
+        .writeValue(PATH.toFile(), commands);
+
+    } catch (IOException e) {
+      System.err.println("Failed to save commands: " + e.getMessage());
+    }
+  }
+
   public Map<String, CommandImpl> list() {
     return Map.copyOf(commands);
   }
@@ -61,16 +71,6 @@ public class CommandStore {
 
     } catch (IOException e) {
       System.err.println("Failed to load commands: " + e.getMessage());
-    }
-  }
-
-  private void save() {
-    try {
-      mapper.writerWithDefaultPrettyPrinter()
-        .writeValue(PATH.toFile(), commands);
-
-    } catch (IOException e) {
-      System.err.println("Failed to save commands: " + e.getMessage());
     }
   }
 

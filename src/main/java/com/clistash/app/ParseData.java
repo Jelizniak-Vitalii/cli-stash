@@ -6,7 +6,6 @@ public class ParseData {
   public ParseData() {}
 
   public static String[] normalizeQuotes(String[] args) {
-
     if (args.length < 3) {
       return args;
     }
@@ -29,5 +28,4 @@ public class ParseData {
 
     return new String[]{args[0], name, command};
   }
-
 }
