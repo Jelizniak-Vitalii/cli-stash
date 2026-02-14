@@ -6,8 +6,11 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 
+import static com.clistash.app.ParseData.normalizeQuotes;
+
 public class App {
   private static final CommandStore store = new CommandStore();
+  private static final ParseData parseData = new ParseData();
 
   public static void main(String[] args) {
     if (args.length == 0) {
@@ -39,14 +42,16 @@ public class App {
   }
 
   private static void processArgs(String[] args) {
+    String[] parsedArgs = ParseData.normalizeQuotes(args);
+
     switch (args[0]) {
       case "-list" -> handleList();
       case "-help" -> printHelp();
-      case "-get" -> handleGet(args);
-      case "-add" -> handleAdd(args);
-      case "-remove" -> handleRemove(args);
-      case "-update" -> handleUpdate(args);
-      case "-run" -> handleRun(args);
+      case "-get" -> handleGet(parsedArgs);
+      case "-add" -> handleAdd(parsedArgs);
+      case "-remove" -> handleRemove(parsedArgs);
+      case "-update" -> handleUpdate(parsedArgs);
+      case "-run" -> handleRun(parsedArgs);
       default -> {
         System.out.println("Unknown option: " + args[0]);
         printHelp();
